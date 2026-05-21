@@ -1,0 +1,12 @@
+# Blueprint для Render — заставляет использовать Docker (а не нативный Python).
+# Через Docker подтягиваются ffmpeg и flac, нужные для обработки голоса,
+# и фиксированный Python 3.11 с готовыми колёсами scikit-learn.
+services:
+  - type: web
+    name: smartbot-var24
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false   # значение задаётся вручную в дашборде Render
