@@ -14,6 +14,11 @@ __pycache__/
 *.pyo
 .venv/
 venv/
+.report_venv/
+
+# Генератор отчёта и сам отчёт (не нужны для работы бота)
+generate_report.py
+*.docx
 
 # Секреты
 .env

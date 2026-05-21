@@ -880,10 +880,11 @@ def get_answer_by_intent(intent: str):
     return None
 
 
-def generate_answer(replica: str):
+def generate_answer(replica: str, max_dist: float = 0.2):
     """
     Генерирует ответ из датасета диалогов (dialogues.txt).
     Использует расстояние Левенштейна для поиска похожего вопроса.
+    max_dist — порог взвешенного расстояния (меньше = строже совпадение).
     """
     if not dialogues_structured_cut:
         return None
@@ -911,7 +912,7 @@ def generate_answer(replica: str):
         if length_ratio < 0.2:
             dist = nltk.edit_distance(replica_clean, q)
             dist_weighted = dist / len(q)
-            if dist_weighted < 0.2:
+            if dist_weighted < max_dist:
                 candidates.append((dist_weighted, a))
 
     return min(candidates, key=lambda x: x[0])[1] if candidates else None
@@ -972,10 +973,18 @@ def bot(replica: str, hist_theme: list, user_id='console') -> str:
     # Анализ тональности (дополнительная функция)
     sentiment = get_sentiment(replica)
 
+    answer = None
+
+    # 0.5. Почти точное совпадение с вопросом из dialogues.txt имеет приоритет.
+    # Если пользователь дословно задал вопрос из датасета — отвечаем из него,
+    # не отдавая фразу классификатору намерений (иначе он может перехватить её).
+    exact = generate_answer(replica, max_dist=0.1)
+    if exact:
+        stats['generate'] += 1
+        return maybe_add_ad(user_id, exact)
+
     # 1. NLU: классификация намерения
     intent = classify_intent(replica, hist_theme)
-
-    answer = None
 
     # 2. Ответ по намерению (заготовленные реплики)
     if intent:
