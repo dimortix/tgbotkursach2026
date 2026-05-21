@@ -23,11 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Предзагрузка данных NLTK (чтобы не качать при каждом запуске)
 RUN python -c "import nltk; nltk.download('punkt', quiet=True)"
 
-# Код бота
+# Код бота и датасет диалогов
 COPY chatbot_var24.py .
-
-# Опционально: датасет диалогов (если положить рядом)
-# COPY dialogues.txt .
+COPY dialogues.txt .
 
 # По умолчанию запускаем Telegram-бота
 CMD ["python", "chatbot_var24.py", "--telegram"]
