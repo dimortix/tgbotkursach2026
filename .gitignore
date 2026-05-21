@@ -1,0 +1,22 @@
+# Служебные файлы ruflo / Claude Code
+.claude/
+.claude-flow/
+.swarm/
+.agents/
+.mcp.json
+CLAUDE.md
+ruvector.db
+*.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Секреты
+.env
+
+# OS
+.DS_Store

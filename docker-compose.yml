@@ -1,0 +1,13 @@
+services:
+  smartbot:
+    build: .
+    container_name: smartbot_var24
+    restart: unless-stopped
+    environment:
+      # Токен задаётся через переменную окружения (НЕ хранить в коде/репозитории!).
+      # Локально: TELEGRAM_TOKEN=ваш_токен docker compose up
+      # На Render/Railway — в разделе Environment Variables.
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN:?Set TELEGRAM_TOKEN env var}
+    # Код зашит в образ при сборке. Датасет диалогов подключается как volume.
+    volumes:
+      - ./dialogues.txt:/app/dialogues.txt:ro

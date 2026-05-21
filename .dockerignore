@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.git/
+.claude/
+.claude-flow/
+.swarm/
+.agents/
+*.db
+*.log
+CLAUDE.md
+.mcp.json
