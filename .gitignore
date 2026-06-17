@@ -27,3 +27,4 @@ generate_report.py
 
 # OS
 .DS_Store
+.gitignore
